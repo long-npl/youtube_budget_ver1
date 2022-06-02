@@ -19,7 +19,8 @@ def get_projects():
     prjs = prjs[prjs['Status(ON)'] == "ON"].reset_index(drop=True)
     list_v = {'__Sheet': 'Google', 'login_id': 'vu_van_cuong@ca-adv.co.jp', 'login_pw': '',
               'tab': 'campaigns', 'template': 'yb', 'channel': '', 'campaign_status': 'すべて', 'adgroup_status': 'すべて',
-              'main_fer': 'キャンペーンのステータス: 有効のみ', 'view': '', 'template_change': 'ON'
+              'template_items': '平均インプレッション単価,費用,ディスプレイ広告のインプレッション シェア損失率（予算）',
+              'view': '', 'template_change': 'ON'
               }
 
     prjs_dict_list = list(prjs.apply(dict, 1))
@@ -32,7 +33,6 @@ def get_projects():
 def main():
     task_list = list(get_projects())
     for task in task_list:
-        print(task)
         run_task(task)
 
 
