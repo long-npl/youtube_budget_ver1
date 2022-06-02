@@ -337,11 +337,13 @@ class GoogleMainFilter(GoogleBase):
         sleep(0.5)
 
         filter_text = ggft.get_filter_text()
+
         if len(str(check_texts[0]).split(';')[2].split('、')) >= 3:
             check_texts = str(check_texts[0]).split(';')[0] + ';' + str(check_texts[0]).split(';')[1].replace(' > ', ': >: ')\
                           + ';' + str(check_texts[0]).split(';')[2].split('、')[0] + '、' + \
                           str(check_texts[0]).split(';')[2].split('、')[1] + '（その他 1 個）'
         print(check_texts)
+
         if filter_text not in check_texts:
             raise AssertionError(
                 "Select Filter Failed.\nExpected: {}.Selected Filter: {}".format(check_texts, filter_text))
