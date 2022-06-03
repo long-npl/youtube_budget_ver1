@@ -63,9 +63,9 @@ class Paste:
                 sub_data.sort_values("時間帯", inplace=True)
                 assert list(range(24)) == list(sub_data['時間帯']), "invalid sorting"
 
-                if sub_days == datetime.datetime.strptime('2022/05/31', '%Y/%m/%d').strftime('%Y-%m-%d'):
+                if sub_days == self.now_date.strftime('%Y-%m-%d'):
                     tt_col = base_col + 1
-                elif sub_days == datetime.datetime.strptime('2022/05/30', '%Y/%m/%d').strftime('%Y-%m-%d'):
+                elif sub_days == (self.now_date - datetime.timedelta(days=1)).strftime('%Y-%m-%d'):
                     tt_col = base_col
                 else:
                     raise
@@ -108,11 +108,14 @@ class Paste:
             self.ws_hi.range(8, base_col+2).options(pd.Series, index=False, header=False, expand='table').value = sub_da['費用']
             self.ws_hi.range(8, base_col+3).options(pd.Series, index=False, header=False, expand='table').value = sub_da['平均インプレッション単価']
             self.ws_hi.range(8, base_col+4).options(pd.Series, index=False, header=False, expand='table').value = sub_da['ディスプレイ広告の IS 損失率（予算）']
+        self.ws_hi.select('A1')
+        self.ws_cost.select('A1')
 
 
-
-
-
+    def save(self):
+        self.wb.save(f'./01.out/use_test.xlsx')
+        self.wb.close()
+        self.app.kill()
 
 
 
@@ -121,6 +124,7 @@ def run_task(task):
     print(task)
     start_date = task["start_date"]
     now_date = datetime.datetime.strptime('2022/05/31', '%Y/%m/%d')
+    # now_date = datetime.datetime.today().strftime('%Y/%m/%d')
     gap_days = (now_date - start_date).days
     account_id = task["account_id"]
     account_name = task["account_name"]
